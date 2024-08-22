@@ -16,12 +16,15 @@ void extract_hex_values(const char *filename) {
 
     char line[BUFFER_SIZE];
     while (fgets(line, sizeof(line), fp) != NULL) {
+        // Remove newline character from the line
+        line[strcspn(line, "\n")] = 0;
+
         // Check if the line contains an instruction
         if (strstr(line, ":") != NULL) {
             char *token = strtok(line, "\t");
             token = strtok(NULL, "\t");
             if (token != NULL) {
-                // Add \0x before each hex value and concatenate them
+                // Add \x before each hex value and concatenate them
                 char *hex_value = strtok(token, " ");
                 while (hex_value != NULL) {
                     printf("\\x%s", hex_value);
